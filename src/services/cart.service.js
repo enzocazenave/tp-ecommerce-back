@@ -1,4 +1,4 @@
-const Cart = require("../models/mongo/Cart")
+const { CartModel: Cart } = require("../models/mongo/Cart")
 const Product = require("../models/mongo/Product")
 
 const addProduct = async (product, userId) => {

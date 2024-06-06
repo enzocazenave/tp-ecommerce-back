@@ -9,7 +9,6 @@ const CartProductSchema = new Schema({
   quantity: {
     type: Number,
     required: true,
-    min: 1
   },
   price: {
     type: Number,
@@ -37,4 +36,7 @@ CartModel.schema.set('toJSON', {
   }
 })
 
-module.exports = CartModel
+module.exports = { 
+  CartModel,
+  CartProductSchema
+}
