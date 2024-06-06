@@ -4,10 +4,6 @@ const RecordService = require('../services/record.service')
 
 const getRecordsByProductId = async (req = request, res = response) => {
   try {
-    if (!req.params.productId) {
-      throw ""
-    }
-
     const response = await RecordService.getRecordsByProductId(req.params.productId)
     sendSuccessResponse(res, 200, `Registro de actividades del producto ${req.params.productId} obtenidos con éxito`, response)
   } catch(error) {

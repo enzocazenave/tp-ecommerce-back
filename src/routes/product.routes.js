@@ -1,5 +1,5 @@
 const { Router } = require('express')
-const { check } = require('express-validator')
+const { check, param } = require('express-validator')
 const ProductController = require('../controllers/product.controller')
 const fieldValidator = require('../middlewares/fieldValidator')
 const tokenValidator = require('../middlewares/tokenValidator')
@@ -28,6 +28,8 @@ router.get('/', [], ProductController.get)
 router.patch(
   '/:productId', 
   [
+    param('productId', 'El id de producto es obligatorio').not().isEmpty().isMongoId(),
+    fieldValidator,
     tokenValidator,
     isOperatorUser
   ], 
