@@ -1,0 +1,37 @@
+const { Router } = require('express')
+const { check } = require('express-validator')
+const ProductController = require('../controllers/product.controller')
+const fieldValidator = require('../middlewares/fieldValidator')
+const tokenValidator = require('../middlewares/tokenValidator')
+const isOperatorUser = require('../middlewares/isOperatorUser')
+
+const router = Router()
+
+router.post(
+  '/', 
+  [
+    tokenValidator,
+    isOperatorUser,
+    check('name', 'El nombre es obligatorio.').notEmpty(),
+    check('description', 'La descripción es obligatoria.').notEmpty(),
+    check('multimedia', 'Los archivos multimedia son obligatorios.').notEmpty().isArray(),
+    check('price', 'El precio es obligatorio.').notEmpty().isNumeric(),
+    fieldValidator
+  ],
+  ProductController.create
+)
+
+router.get('/:productId', [], ProductController.get)
+
+router.get('/', [], ProductController.get)
+
+router.patch(
+  '/:productId', 
+  [
+    tokenValidator,
+    isOperatorUser
+  ], 
+  ProductController.update
+)
+
+module.exports = router
