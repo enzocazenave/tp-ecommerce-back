@@ -21,7 +21,19 @@ const getCartRecords = async (req = request, res = response) => {
   }
 }
 
+const returnToPreviousStatuses = async (req = request, res = response) => {
+  try {
+    const { userId } = req.body.auth
+    const { cartRecordId } = req.params
+    const response = await RecordService.returnToPreviousStatuses(userId, cartRecordId)
+    sendSuccessResponse(res, 200, 'Estado de carrito actualizado con éxito', response)
+  } catch(error) {
+    sendErrorResponse(res, 400, error)
+  }
+}
+
 module.exports = {
   getRecordsByProductId,
-  getCartRecords
+  getCartRecords,
+  returnToPreviousStatuses
 }

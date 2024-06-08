@@ -31,6 +31,8 @@ router.post(
   AuthController.login
 )
 
+router.delete('/logout', tokenValidator, AuthController.logout)
+
 router.get('/renew', tokenValidator, AuthController.validate)
 
 module.exports = router

@@ -4,7 +4,7 @@ const { sign } = require("jsonwebtoken")
 
 const register = async (user) => {
   try {
-    let isEmailInUse = await User.findOne({ email: user.email })
+    const isEmailInUse = await User.findOne({ email: user.email })
 
     if (isEmailInUse) {
       throw "El correo electrónico ya se encuentra en uso"
@@ -15,7 +15,7 @@ const register = async (user) => {
     await newUser.save()
 
     const token = sign(
-      { userId: newUser._id, role: newUser.role }, 
+      { userId: newUser._id, role: newUser.role, sessionInitDate: new Date() }, 
       process.env.SECRET_TOKEN_KEY,
       { expiresIn: process.env.SECRET_TOKEN_EXPIRATION_TIME }
     )
@@ -32,7 +32,7 @@ const register = async (user) => {
 
 const login = async (user) => {
   try {
-    let currentUser = await User.findOne({ email: user.email })
+    const currentUser = await User.findOne({ email: user.email })
 
     if (!currentUser) {
       throw "Credenciales incorrectas"
@@ -45,7 +45,7 @@ const login = async (user) => {
     }
 
     const token = sign(
-      { userId: currentUser._id, role: currentUser.role }, 
+      { userId: currentUser._id, role: currentUser.role },
       process.env.SECRET_TOKEN_KEY,
       { expiresIn: process.env.SECRET_TOKEN_EXPIRATION_TIME }
     )
@@ -60,7 +60,33 @@ const login = async (user) => {
   }
 }
 
+const logout = async (sessionInitDate, userId) => {
+  try {
+    const user = await User.findById(userId)
+
+    if (!user) {
+      throw `El usuario ${userId} no existe`
+    }
+
+    const currentDate = new Date().getTime() / 1000
+    const deltaDate = Math.round(currentDate - sessionInitDate)
+
+    if (deltaDate >= 120 && deltaDate < 240) {
+      user.category = 'MEDIUM'
+    } else if (deltaDate >= 240) {
+      user.category = 'TOP'
+    }
+
+    await user.save()
+    
+    return deltaDate
+  } catch(error) {
+    throw error
+  }
+}
+
 module.exports = {
   register,
-  login
+  login,
+  logout
 }

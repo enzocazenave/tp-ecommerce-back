@@ -10,7 +10,7 @@ router.put(
   '/add', 
   [
     check('productId', 'El id de producto es obligatorio').not().isEmpty().isMongoId(),
-    check('quantity', 'La cantidad de unidades del producto es obligatoria').not().isEmpty().isInt(),
+    check('quantity', 'La cantidad de unidades del producto es obligatoria').not().isEmpty().isInt({ min: 1 }),
     fieldValidator,
     tokenValidator
   ], 
@@ -21,7 +21,7 @@ router.delete(
   '/remove',
   [
     check('productId', 'El id de producto es obligatorio').not().isEmpty().isMongoId(),
-    check('quantity', 'La cantidad de unidades del producto es obligatoria').not().isEmpty().isInt(),
+    check('quantity', 'La cantidad de unidades del producto es obligatoria').not().isEmpty().isInt({ min: 1 }),
     fieldValidator,
     tokenValidator
   ],

@@ -29,9 +29,15 @@ const UserSchema = new Schema({
     type: Number,
     required: true
   },
-  averageTimePerDay: {
-    type: Number,
-    default: 60
+  ivaCondition: {
+    type: String,
+    required: true,
+    enum: ['Monotributista', 'Responsable Inscripto', 'Consumidor Final']
+  },
+  category: {
+    type: String,
+    default: 'LOW',
+    enum: ['LOW', 'MEDIUM', 'TOP']
   }
 })
 

@@ -9,7 +9,6 @@ const tokenValidator = (req = request, res = response, next) => {
 
   try {
     const tokenPayload = verify(token, process.env.SECRET_TOKEN_KEY)
-    delete tokenPayload.iat
     delete tokenPayload.exp
 
     req.body = { ...req.body, auth: { ...tokenPayload, token } }

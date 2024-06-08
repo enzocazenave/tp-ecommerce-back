@@ -22,6 +22,7 @@ class Server {
     this.app.use('/products', require('../routes/product.routes'))
     this.app.use('/records', require('../routes/record.routes'))
     this.app.use('/cart', require('../routes/cart.routes'))
+    this.app.use('/orders', require('../routes/order.routes'))
   }
 
   connectDatabases() {
