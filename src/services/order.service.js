@@ -96,7 +96,7 @@ const getOrderById = async (orderId, userId) => {
       MATCH (o)-[:CONTAINS]->(p:Product)
       RETURN o, collect(p) as products`
     , { orderId: parseInt(orderId), userId  })
-
+      
     if (order.records.length === 0) {
       throw `La orden con id ${orderId} no existe`
     }

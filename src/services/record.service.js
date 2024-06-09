@@ -1,5 +1,7 @@
 const { CartModel: Cart } = require("../models/mongo/Cart")
 const CartRecord = require("../models/mongo/CartRecord")
+const BillRecord = require("../models/mongo/BillRecord")
+
 const Record = require("../models/mongo/Record")
 
 const getRecordsByProductId = async (productId) => {
@@ -16,6 +18,15 @@ const getCartRecords = async(userId) => {
     const cart = await Cart.findOne({ userId })
     const cartRecords = await CartRecord.find({ cartId: cart._id })
     return cartRecords
+  } catch(error) {
+    throw error
+  }
+}
+
+const getBillRecords = async() => {
+  try {
+    const billRecords = await BillRecord.find()
+    return billRecords
   } catch(error) {
     throw error
   }
@@ -45,5 +56,6 @@ const returnToPreviousStatuses = async (userId, cartRecordId) => {
 module.exports = {
   getRecordsByProductId,
   getCartRecords,
-  returnToPreviousStatuses
+  returnToPreviousStatuses,
+  getBillRecords
 }

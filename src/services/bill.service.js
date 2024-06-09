@@ -12,6 +12,10 @@ const getBillByOrderId = async (orderId, userId) => {
       RETURN o, collect(p) as products, b, payment
     `, { orderId: parseInt(orderId), userId })
 
+    if (order.records.length === 0) {
+      throw `La orden con id ${orderId} no existe`
+    }
+
     return order.records.map(record => ({ 
       id: record.get('o').identity.low,
       ...record.get('o').properties,

@@ -1,4 +1,6 @@
 const { getNeo4jSession } = require("../databases/neo4j")
+const BillRecord = require('../models/mongo/BillRecord')
+const BillService = require('../services/bill.service')
 
 const payOrder = async(orderId, userId, paymentMethod) => {
   try {
@@ -32,6 +34,17 @@ const payOrder = async(orderId, userId, paymentMethod) => {
       CREATE (b:Bill { billedAt: $billedAt })
       CREATE (b)-[:BILL_OF]->(o)
     `, { userId, orderId: parseInt(orderId), billedAt: new Date().toISOString() })
+
+    const billAndOrderData = await BillService.getBillByOrderId(orderId, userId)
+
+    const billRecord = new BillRecord({
+      orderId: parseInt(orderId),
+      price: billAndOrderData.price,
+      paymentMethod,
+      billedAt: billAndOrderData.billedAt
+    })
+    
+    await billRecord.save()
   } catch(error) {
     throw error
   }

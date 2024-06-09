@@ -21,6 +21,15 @@ const getCartRecords = async (req = request, res = response) => {
   }
 }
 
+const getBillRecords = async (req = request, res = response) => {
+  try {
+    const response = await RecordService.getBillRecords()
+    sendSuccessResponse(res, 200, `Registro de actividades de pagos obtenidos con éxito`, response)
+  } catch(error) {
+    sendErrorResponse(res, 400, error)
+  }
+}
+
 const returnToPreviousStatuses = async (req = request, res = response) => {
   try {
     const { userId } = req.body.auth
@@ -35,5 +44,6 @@ const returnToPreviousStatuses = async (req = request, res = response) => {
 module.exports = {
   getRecordsByProductId,
   getCartRecords,
-  returnToPreviousStatuses
+  returnToPreviousStatuses,
+  getBillRecords
 }

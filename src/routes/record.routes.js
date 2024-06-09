@@ -20,6 +20,15 @@ router.get(
 
 router.get('/cart', tokenValidator, RecordController.getCartRecords)
 
+router.get(
+  '/bill', 
+  [
+    tokenValidator,
+    isOperatorUser
+  ], 
+  RecordController.getBillRecords
+)
+
 router.put(
   '/cart/status/:cartRecordId', 
   [
