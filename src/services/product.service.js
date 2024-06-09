@@ -56,8 +56,6 @@ const updateById = async(productId, newProductData, userId) => {
       })
       await propChangeRecord.save()
     }))
-
-    await product.save()
   } catch(error) {
     throw error
   }
