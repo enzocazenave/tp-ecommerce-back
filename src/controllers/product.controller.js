@@ -51,7 +51,6 @@ const update = async (req = request, res = response) => {
     await ProductService.updateById(productId, propsToUpdate, auth.userId)
     sendSuccessResponse(res, 200, 'Producto actualizado con éxito', {})
   } catch(error) {
-    console.log(error)
     sendErrorResponse(res, 400, error)
   }
 }

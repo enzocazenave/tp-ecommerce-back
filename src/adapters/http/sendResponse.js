@@ -13,8 +13,8 @@ const sendSuccessResponse = (res = response, statusCode, message = '', data = {}
 const sendErrorResponse = (res = response, statusCode, error = "") => {
   res.status(statusCode).json({
     ok: false,
-    message: null,
     status: statusCode,
+    message: null,
     error: error,
     data: null
   })

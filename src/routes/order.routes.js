@@ -6,4 +6,8 @@ const router = Router()
 
 router.post('/create', tokenValidator, OrderController.createOrder)
 
+router.get('/', tokenValidator, OrderController.getUserOrders)
+
+router.get('/:orderId', tokenValidator, OrderController.getUserOrders)
+
 module.exports = router
