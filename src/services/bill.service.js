@@ -28,6 +28,35 @@ const getBillByOrderId = async (orderId, userId) => {
   }
 }
 
+const getBillsOfUser = async (userId) => {
+  try {
+    const neo4j = getNeo4jSession()
+    const order = await neo4j.run(`
+      MATCH (o:Order { userId: $userId })
+      MATCH (o)-[:CONTAINS]->(p:Product)
+      MATCH (o)-[:PAYED_BY]->(payment:Payment)
+      MATCH (b:Bill)-[:BILL_OF]->(o)
+      RETURN o, collect(p) as products, b, payment
+    `, { userId })
+
+    if (order.records.length === 0) {
+      throw `El usuario ${userId} no tiene facturas`
+    }
+
+    return order.records.map(record => ({ 
+      id: record.get('o').identity.low,
+      ...record.get('o').properties,
+      ...record.get('b').properties,
+      ...record.get('payment').properties,
+      products: record.get('products').map(product => product.properties)
+    }))
+  } catch(error) {
+    console.log(error)
+    throw error
+  }
+}
+
 module.exports = {
-  getBillByOrderId
+  getBillByOrderId,
+  getBillsOfUser
 }

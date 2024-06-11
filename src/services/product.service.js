@@ -37,6 +37,20 @@ const getProductById = async(productId) => {
   }
 }
 
+const deleteProduct = async(productId) => {
+  try {
+    const product = await Product.findByIdAndDelete(productId)
+    
+    if (!product) {
+      throw `El producto con id ${productId} no existe`
+    }
+
+    return product
+  } catch(error) {
+    throw error
+  }
+}
+
 const updateById = async(productId, newProductData, userId) => {
   try {
     const product = await Product.findByIdAndUpdate(productId, newProductData)
@@ -65,5 +79,6 @@ module.exports = {
   create,
   get,
   getProductById,
-  updateById
+  updateById,
+  deleteProduct
 }

@@ -31,6 +31,15 @@ const get = async (req = request, res = response) => {
   }
 }
 
+const deleteProduct = async (req = request, res = response) => {
+  try {
+    const response = await ProductService.deleteProduct(req.params.productId)
+    sendSuccessResponse(res, 200, `Producto ${req.params.productId} eliminado con exito`, response)
+  } catch(error) {
+    sendErrorResponse(res, 400, error)
+  }
+}
+
 const update = async (req = request, res = response) => {
   try {
     const productId = req.params.productId
@@ -58,5 +67,6 @@ const update = async (req = request, res = response) => {
 module.exports = {
   create,
   get,
-  update
+  update,
+  deleteProduct
 }

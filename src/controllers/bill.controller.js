@@ -13,6 +13,17 @@ const getBillByOrderId = async(req = request, res = response) => {
   }
 }
 
+const getBillsOfUser = async(req = request, res = response) => {
+  try {
+    const { userId } = req.body.auth
+    const response = await BillService.getBillsOfUser(userId)
+    sendSuccessResponse(res, 200, "Facturas obtenida con éxito", response)
+  } catch(error) {
+    sendErrorResponse(res, 400, error)
+  }
+}
+
 module.exports = {
-  getBillByOrderId
+  getBillByOrderId,
+  getBillsOfUser
 }

@@ -36,4 +36,15 @@ router.patch(
   ProductController.update
 )
 
+router.delete(
+  '/:productId',
+  [
+    param('productId', 'El id de producto es obligatorio').not().isEmpty().isMongoId(),
+    fieldValidator,
+    tokenValidator,
+    isOperatorUser
+  ],
+  ProductController.deleteProduct
+)
+
 module.exports = router

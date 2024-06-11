@@ -18,7 +18,7 @@ const addProduct = async (product, userId) => {
     if (productIndex !== -1) {
       cart.products[productIndex].quantity += product.quantity
     } else {
-      cart.products.push({ ...product, price: productToAdd.price })
+      cart.products.push({ ...product, price: productToAdd.price, name: productToAdd.name, multimedia: productToAdd.multimedia })
     }
 
     const cartRecord = new CartRecord({ cartId: cart._id, beforeActivity: beforeCartActivity, afterActivity: cart.products })

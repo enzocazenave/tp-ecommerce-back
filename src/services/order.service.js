@@ -73,9 +73,10 @@ const getUserOrders = async (userId) => {
     const neo4j = getNeo4jSession()
     const order = await neo4j.run(`
       MATCH (o:Order { userId: $userId })
+      WHERE NOT (o)-[:PAYED_BY]->() AND NOT ()-[:BILL_OF]->(o)
       MATCH (o)-[:CONTAINS]->(p:Product)
-      RETURN o, collect(p) as products`
-    , { userId })
+      RETURN o, collect(p) as products
+     `, { userId })
 
     return order.records.map(record => ({ 
       id: record.get('o').identity.low,

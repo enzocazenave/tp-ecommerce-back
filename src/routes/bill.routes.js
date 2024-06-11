@@ -16,4 +16,12 @@ router.get(
   BillController.getBillByOrderId
 )
 
+router.get(
+  '/orders', 
+  [
+    tokenValidator
+  ],
+  BillController.getBillsOfUser
+)
+
 module.exports = router
